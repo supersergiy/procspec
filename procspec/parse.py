@@ -13,12 +13,12 @@ KEYWORDS = ['procspec_version']
 class Processor:
     def __init__(self):
         self.input_keys = None
-        self.def_output_key = None
+        self.output_key = None
         self.procs = []
 
     def __call__(self, args, output_key=None):
         if self.input_keys is not None:
-            input_args = None
+            input_args = {k: args[v] for k, v in self.input_keys.items()}
         else:
             input_args = args
         for proc in self.procs:
@@ -26,7 +26,7 @@ class Processor:
             v = proc(input_args)
 
         if output_key is None:
-            output_key = self.def_output_key
+            output_key = self.output_key
         if output_key is not None:
             args[output_key] = v
 
@@ -59,14 +59,14 @@ def _parse_proc(spec, default_output):
     if isinstance(spec, list):
         if isinstance(spec, str):
             if len(spec.keys()) != 1:
-                raise Exception(f"{spec} is not a propper processor specification")
+                raise Exception(f"{spec} is not a proper processor specification")
         proc = Processor()
         for ps in spec:
             proc.procs.append(_parse_proc(ps, default_output))
 
     elif isinstance(spec, dict):
         if len(spec.keys()) != 1:
-            raise Exception(f"{spec} is not a propper processor specification")
+            raise Exception(f"{spec} is not a proper processor specification")
 
         proc_type_name = list(spec.keys())[0]
         if proc_type_name not in REGISTRY:
@@ -75,7 +75,7 @@ def _parse_proc(spec, default_output):
 
         proc_def = spec[proc_type_name]
         if not isinstance(proc_def, dict):
-            raise Exception(f"definition {proc_def} is not a propper definition "
+            raise Exception(f"definition {proc_def} is not a proper definition "
                     "for processor {proc_type_name}")
 
         proc = Processor()
@@ -100,13 +100,13 @@ def _parse_proc(spec, default_output):
             raise Exception(f"Unkonwn arguments {proc_def.keys()} in specification "
                     "of {proc_type_name}")
     else:
-        raise Exception(f"{spec} is not a propper processor specification")
+        raise Exception(f"{spec} is not a proper processor specification")
 
     return proc
 
 def parse_proc_params(params, default_output):
     if not isinstance(params, dict):
-        raise Exception(f"{params} is not a propper parameter specification "
+        raise Exception(f"{params} is not a proper parameter specification "
                 "of {proc_type_name}")
     return _parse_proc_params(params, default_output)
 
