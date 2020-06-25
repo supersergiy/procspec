@@ -10,6 +10,7 @@ REGISTRY = dict()
 
 KEYWORDS = ['procspec_version']
 
+
 def register_proc(name):
     def register_fn(cls):
         if name in KEYWORDS:
@@ -18,7 +19,6 @@ def register_proc(name):
         return cls
     return register_fn
 
-#TODO: support multiple output keys()
 
 def parse_proc(spec_str=None, yaml_path=None, default_output=None):
     if spec_str is not None and yaml_path is not None or \
@@ -37,14 +37,14 @@ def _parse_proc(spec, default_output):
     if isinstance(spec, list):
         if isinstance(spec, str):
             if len(spec.keys()) != 1:
-                raise Exception(f"{spec} is not a propper processor specification")
+                raise Exception(f"{spec} is not a proper processor specification")
         proc = Processor()
         for ps in spec:
             proc.procs.append(_parse_proc(ps, default_output))
 
     elif isinstance(spec, dict):
         if len(spec.keys()) != 1:
-            raise Exception(f"{spec} is not a propper processor specification")
+            raise Exception(f"{spec} is not a proper processor specification")
 
         proc_type_name = list(spec.keys())[0]
         if proc_type_name not in REGISTRY:
@@ -53,7 +53,7 @@ def _parse_proc(spec, default_output):
 
         proc_def = spec[proc_type_name]
         if not isinstance(proc_def, dict):
-            raise Exception(f"definition {proc_def} is not a propper definition "
+            raise Exception(f"definition {proc_def} is not a proper definition "
                     "for processor {proc_type_name}")
 
         proc = Processor()
@@ -78,13 +78,13 @@ def _parse_proc(spec, default_output):
             raise Exception(f"Unkonwn arguments {proc_def.keys()} in specification "
                     "of {proc_type_name}")
     else:
-        raise Exception(f"{spec} is not a propper processor specification")
+        raise Exception(f"{spec} is not a proper processor specification")
 
     return proc
 
 def parse_proc_params(params, default_output):
     if not isinstance(params, dict):
-        raise Exception(f"{params} is not a propper parameter specification "
+        raise Exception(f"{params} is not a proper parameter specification "
                 "of {proc_type_name}")
     return _parse_proc_params(params, default_output)
 
