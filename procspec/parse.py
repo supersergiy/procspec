@@ -5,32 +5,10 @@ try:
 except ImportError:
     from yaml import Loader, Dumper
 
-
+from basic_procs import Processor
 REGISTRY = dict()
 
 KEYWORDS = ['procspec_version']
-
-class Processor:
-    def __init__(self):
-        self.input_keys = None
-        self.def_output_key = None
-        self.procs = []
-
-    def __call__(self, args, output_key=None):
-        if self.input_keys is not None:
-            input_args = None
-        else:
-            input_args = args
-        for proc in self.procs:
-            # each proc is modifying the input args
-            v = proc(input_args)
-
-        if output_key is None:
-            output_key = self.def_output_key
-        if output_key is not None:
-            args[output_key] = v
-
-        return v
 
 def register_proc(name):
     def register_fn(cls):
