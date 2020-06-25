@@ -5,7 +5,9 @@ try:
 except ImportError:
     from yaml import Loader, Dumper
 
-from basic_procs import Processor
+from procspec.proc_base import Processor
+
+
 REGISTRY = dict()
 
 KEYWORDS = ['procspec_version']
@@ -32,6 +34,7 @@ def parse_proc(spec_str=None, yaml_path=None, default_output=None):
         spec = yaml.load(spec_str, Loader=Loader)
 
     return _parse_proc(spec, default_output)
+
 
 def _parse_proc(spec, default_output):
     if isinstance(spec, list):
@@ -82,11 +85,13 @@ def _parse_proc(spec, default_output):
 
     return proc
 
+
 def parse_proc_params(params, default_output):
     if not isinstance(params, dict):
         raise Exception(f"{params} is not a proper parameter specification "
                 "of {proc_type_name}")
     return _parse_proc_params(params, default_output)
+
 
 def _parse_proc_params(params, default_output):
     if not isinstance(params, dict):
