@@ -1,6 +1,7 @@
 import json
 
 from procspec.parse import register_proc
+from procspec.proc_base import ProcessorBase
 
 
 @register_proc("Patchwise")
