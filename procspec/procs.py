@@ -1,5 +1,6 @@
 import json
 
+from procspec.proc_base import ProcessorBase
 from procspec.parse import register_proc
 
 

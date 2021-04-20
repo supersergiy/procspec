@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="procspec",
-    version="0.0.2",
+    version="0.0.4",
     author="Sergiy Popovych",
     author_email="sergiy.popovich@gmail.com",
     description="Library for simple and powerful YAML specification of computational tasks.",
@@ -16,6 +16,8 @@ setuptools.setup(
     package_data={'': ['*.py']},
     install_requires=[
       'six',
+      'artificery',
+      'pyyaml'
     ],
     packages=setuptools.find_packages(),
 )

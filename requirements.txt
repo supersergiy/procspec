@@ -1,0 +1,3 @@
+artificery==0.0.3.2
+pyyaml==5.4.1
+six=1.15.0
